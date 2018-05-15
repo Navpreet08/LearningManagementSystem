@@ -7,7 +7,11 @@ const route: Router = Router();
 
 route.get('/', (req: Request, res: Response) => {
     Teachers.findAll({
-        attributes: ['id', 'name']
+        attributes: ['id', 'name'],
+        include :[{
+            model : Subjects,
+            attributes: ['id','name']
+        }]
     }).then((teachers: Teacher[]) => {
         res.status(200).send(teachers);
     }).catch((err: Error) => {

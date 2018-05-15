@@ -2,7 +2,7 @@
 
 import { Router, Request, Response } from 'express';
 import { Course, Batch, Lecture, Student_Batch, Student, Teacher } from '../model';
-import { Courses, Batches, Lectures, Student_Batches, Students, Teachers } from '../db';
+import { Courses, Batches, Lectures, Student_Batches, Students, Teachers, Subjects } from '../db';
 
 const route: Router = Router();
 
@@ -153,6 +153,15 @@ route.get('/:id/batches/:batchId/lectures', (req: Request, res: Response) => {
             }
             else {
                 Lectures.findAll({
+                    include :[{
+                        model : Subjects,
+                        attributes: ['id','name']
+                    },{
+                        model: Teachers,
+                        attributes: ['id','name','subjectId']
+
+                    }
+                ],
                     attributes: ['id', 'name', 'batchId', 'subjectId', 'teacherId'],
                     where: {
                         batchId: batch.id

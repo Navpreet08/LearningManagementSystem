@@ -133,6 +133,14 @@ route.get('/:id/batches/:batchId/lectures', (req, res) => {
             }
             else {
                 db_1.Lectures.findAll({
+                    include: [{
+                            model: db_1.Subjects,
+                            attributes: ['id', 'name']
+                        }, {
+                            model: db_1.Teachers,
+                            attributes: ['id', 'name', 'subjectId']
+                        }
+                    ],
                     attributes: ['id', 'name', 'batchId', 'subjectId', 'teacherId'],
                     where: {
                         batchId: batch.id

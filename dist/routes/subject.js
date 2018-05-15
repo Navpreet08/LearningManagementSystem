@@ -6,7 +6,11 @@ const db_1 = require("../db");
 const route = express_1.Router();
 route.get('/', (req, res) => {
     db_1.Subjects.findAll({
-        attributes: ['id', 'name']
+        attributes: ['id', 'name'],
+        include: [{
+                model: db_1.Courses,
+                attributes: ['id', 'name']
+            }]
     }).then((subjects) => {
         res.status(200).send(subjects);
     }).catch((err) => {
